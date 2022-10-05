@@ -4,10 +4,12 @@ from numpy import average
 #import deepl
 import textwrap
 import json
-from main import setWallpaper
 import PIL.Image as Image
 import PIL.ImageDraw as ImageDraw
 import PIL.ImageFont as ImageFont
+import win32con
+import os
+import ctypes
 
 QUOTE_FONT = 'Arialbd.ttf'
 QUOTE_COLOR = (255, 255, 255)
@@ -17,7 +19,14 @@ BACKGROUND_IMAGE = 'sun_tzu_background.jpg'
 AUTH_KEY = 'e6c656a4-8189-u-dont-get-to-see-that-3415ca6e8311:fx'
 
 
-translator = "lol not working"#deepl.Translator(AUTH_KEY)
+translator = "lol not working"  # deepl.Translator(AUTH_KEY)
+
+
+def setWallpaper(path):
+    path = os.path.abspath(path)
+    changed = win32con.SPIF_UPDATEINIFILE | win32con.SPIF_SENDCHANGE
+    ctypes.windll.user32.SystemParametersInfoW(
+        win32con.SPI_SETDESKWALLPAPER, 0, path, changed)
 
 
 def translate(text: str, lang='FR') -> str:
